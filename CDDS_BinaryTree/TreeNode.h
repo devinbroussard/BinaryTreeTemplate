@@ -1,4 +1,5 @@
 #pragma once
+#include <raylib.h>
 
 template<typename T>
 class TreeNode
@@ -59,4 +60,84 @@ private:
 };
 
 
+template<typename T>
+inline void TreeNode<T>::setRight(TreeNode<T>* node)
+{
+	m_right = node;
+}
 
+template<typename T>
+inline void TreeNode<T>::draw(int x, int y, bool selected) {
+	//Creates an array to store the string representation of the value
+	static char buffer[10];
+
+	//Converts the value to a string and stores it in the array
+	sprintf(buffer, "%", m_value);
+
+	//Draws the circle to represent the node
+	DrawCircle(x, y, 30, YELLOW);
+
+	//If the node is the current selected no change its color
+	if (selected)
+		DrawCircle(x, y, 28, GREEN);
+	else
+		DrawCircle(x, y, 28, BLACK);
+
+	//Draw the value of the node inside its circle
+	DrawText(buffer, x - 12, y - 12, 12, WHITE);
+}
+
+template<typename T>
+inline TreeNode<T>::TreeNode(T value)
+{
+	m_value = value;
+	m_left = nullptr;
+	m_right = nullptr;
+}
+
+template<typename T>
+inline bool TreeNode<T>::hasLeft()
+{
+	if (m_left) return true;
+	else return false;
+}
+
+template<typename T>
+inline bool TreeNode<T>::hasRight()
+{
+	if (m_right) return true;
+	else return false;
+}
+
+template<typename T>
+inline T TreeNode<T>::getData()
+{
+	if (m_value) return m_value;
+	else return NULL;
+}
+
+template<typename T>
+inline TreeNode<T>* TreeNode<T>::getLeft()
+{
+	if (hasLeft()) return getLeft();
+	else return NULL;
+}
+
+template<typename T>
+inline TreeNode<T>* TreeNode<T>::getRight()
+{
+	if (hasRight()) return getRight();
+	else return NULL;
+}
+
+template<typename T>
+inline void TreeNode<T>::setData(T value)
+{
+	m_value = value;
+}
+
+template<typename T>
+inline void TreeNode<T>::setLeft(TreeNode<T>* node)
+{
+	m_left = node;
+}

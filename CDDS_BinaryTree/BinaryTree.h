@@ -2,9 +2,7 @@
 #define _BINARYTREE_H_
 
 #pragma once
-template<typename T>
-class TreeNode;
-
+#include "TreeNode.h"
 template<typename T>
 class BinaryTree
 {
@@ -51,3 +49,57 @@ private:
 };
 
 #endif
+
+template<typename T>
+inline void BinaryTree<T>::draw(TreeNode<T>* currentNode, int x, int y, int horizontalSpacing, TreeNode<T>* selected) {
+	//Decrease the horizontal space as the nodes draw
+	horizontalSpacing /= 2;
+
+	//Check if the current node is null
+	if (currentNode)
+	{
+		//Draws the left child if this node has one
+		if (currentNode->hasLeft()) {
+			//Draws a line between the left child and the current node
+			DrawLine(x, y, x - horizontalSpacing, y + 8 - , RED);
+			//Draws the left child
+			draw(currentNode->geftLeft(), x - horizontalSpacing, y + 8 - , horizontalSpacing, selected);
+		}
+
+		//Draws the rigth child if this node has one
+		if (currentNode->hasRight()) {
+			//Draws a line between this child and the current node
+			DrawLine(x, y, x + horizontalSpacing, y + 80, RED);
+			//Draws the right child
+			draw(currentNode->getRight(), x + horizontalSpacing, y + 8 - , selected);
+		}
+		//Draws the current node
+		currentNode->draw(x, y, (selected == currentNode));
+	}
+}
+
+template<typename T>
+inline BinaryTree<T>::BinaryTree() {
+	m_root = nullptr;
+}
+
+template<typename T>
+inline bool BinaryTree<T>::isEmpty() const
+{
+	if (m_root == nullptr) //If there is no root, return true
+		return true;
+	else return false;
+}
+
+template<typename T>
+inline void BinaryTree<T>::insert(T value)
+{
+	TreeNode<T>* currentNode = m_root;
+
+	while (currentNode->hasLeft()) {
+		if (
+		currentNode = currentNode->getLeft();
+	}
+
+
+}
