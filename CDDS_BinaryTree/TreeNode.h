@@ -72,16 +72,16 @@ inline void TreeNode<T>::draw(int x, int y, bool selected) {
 	static char buffer[10];
 
 	//Converts the value to a string and stores it in the array
-	sprintf(buffer, "%", m_value);
+	sprintf(buffer, "%d", m_value);
 
 	//Draws the circle to represent the node
 	DrawCircle(x, y, 30, YELLOW);
 
-	//If the node is the current selected no change its color
+	//If the the node is the current selected node change its color.
 	if (selected)
-		DrawCircle(x, y, 28, GREEN);
+		DrawCircle(x, y, 28, SKYBLUE);
 	else
-		DrawCircle(x, y, 28, BLACK);
+		DrawCircle(x, y, 28, DARKGRAY);
 
 	//Draw the value of the node inside its circle
 	DrawText(buffer, x - 12, y - 12, 12, WHITE);
@@ -119,14 +119,14 @@ inline T TreeNode<T>::getData()
 template<typename T>
 inline TreeNode<T>* TreeNode<T>::getLeft()
 {
-	if (hasLeft()) return getLeft();
+	if (hasLeft()) return m_left;
 	else return NULL;
 }
 
 template<typename T>
 inline TreeNode<T>* TreeNode<T>::getRight()
 {
-	if (hasRight()) return getRight();
+	if (hasRight()) return m_right;
 	else return NULL;
 }
 
