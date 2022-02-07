@@ -281,30 +281,40 @@ inline void BinaryTree<T>::remove(T value)
 				else if (currentParent->getRight() == nodeToRemove) 
 					currentParent->setRight(currentNode);
 
-				//Deletes node to remove
+				//Deletes node to remove, and returns
 				delete nodeToRemove;
 				return;
 			}
+			//Otherwise...
 			else {
+				//Set the parents pointer to the node to remove to null
 				if (currentParent->getLeft() == nodeToRemove)
 					currentParent->setLeft(nullptr);
 				else if (currentParent->getRight() == nodeToRemove)
 					currentParent->setRight(nullptr);
+				//Delete the node to remove
 				delete nodeToRemove;
 			}
 		}
+		//Otherwise...
 		else {
+			//If the node to remove has a left..
 			if (nodeToRemove->hasLeft()) {
+				//Set the current node to the node to remove's left
 				currentNode = nodeToRemove->getLeft();
+				//Set the root to the current node
 				m_root = currentNode;
+				//Delete the node to remove, and return
 				delete nodeToRemove;
 				return;
 			}
 			else {
+				//Delete the node to remove, and set root to nullptr
 				delete nodeToRemove;
 				m_root = nullptr;
 			}
 		}
+		//Deletes the current node
 		delete currentNode;
 	}
 
