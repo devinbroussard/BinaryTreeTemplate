@@ -107,7 +107,10 @@ inline bool BinaryTree<T>::findNode(T searchValue, TreeNode<T>*& nodeFound, Tree
 		}
 		else if (searchValue == currentNode->getData()) {
 			nodeFound = currentNode;
-			nodeParent = currentParent;
+			if (currentParent->getData() == nodeFound->getData()) {
+				nodeParent == nullptr;
+			}
+			else nodeParent = currentParent;
 			return true;
 		}
 	}
@@ -203,31 +206,106 @@ inline void BinaryTree<T>::insert(T value)
 template<typename T>
 inline void BinaryTree<T>::remove(T value)
 {
-	TreeNode<T>* nodeToRemove;
-	TreeNode<T>* currentParent;
-	TreeNode<T>* currentLeft;
-	bool searching = true;
+	//Creating pointers to store nodes;
+	TreeNode<T>* nodeToRemove = nullptr; //going to use NTR in comments 
+	TreeNode<T>* currentParent = nullptr;
+	TreeNode<T>* currentNode = nullptr;
 
-	findNode(value, nodeToRemove, currentParent);
+	//Checks to see if the node is in the list, and changes the node to remove and currentParent pointers
+	if (!findNode(value, nodeToRemove, currentParent))
+		return; //Returns from the function if the node is not in the list
 
-	if (nodeToRemove->hasRight()) {
-		currentParent = nodeToRemove->getRight();
-		if (currentParent->hasLeft()) {
-			currentLeft = currentParent->getLeft();
+	//If the node has a right...
+	if (nodeToRemove->hasRight()) { 
+		//Set the current node to be the node to remove's right node
+		currentNode = nodeToRemove->getRight();
+
+		//If the current node has a left node...
+		if (currentNode->hasLeft()) {
+			//Set the current parent to be the current node
+			currentParent = currentNode;
+			//Creates a bool to use with while loops
+			bool searching = true;
+
+			//While the program is searching...
 			while (searching) {
-				if (currentLeft->hasLeft()) {
-					currentLeft = currentLeft->getLeft();
+				//If the current parent's left has another left...
+				if (currentParent->getLeft()->hasLeft()) {
+					//...set the current parent to be the current parent's left
 					currentParent = currentParent->getLeft();
 				}
-				else searching = false;
+				//Otherwise...
+				else {
+					//...set the current node to be the current parent's left...
+					currentNode = currentParent->getLeft();
+					//...and set searching to false, which breaks out of the loop
+					searching = false;
+				}
+			}
+
+			//Set the node to remove's data to the current node's
+			nodeToRemove->setData(currentNode->getData());
+			//Set the current parent to point at the current node's right
+			currentParent->setLeft(currentNode->getRight());
+			//Deletes the current node
+			delete currentNode;
 		}
+		//Otherwise...
+		else {
+			//Set the node to remove's data to be the current node's data
+			nodeToRemove->setData(currentNode->getData());
 
-		nodeToRemove->setData(currentLeft->getData());
+			//If the current node has a right...
+			if (currentNode->hasRight()) {
+				//..sets the node to remove's right to be the current node's right
+				nodeToRemove->setRight(currentNode->getRight());
+			}
+			//Otherwise, set the node to remove's right to be nullptr
+			else nodeToRemove->setRight(nullptr);
+			//Deletes the current node
+			delete currentNode;
+		}
+	}
+	//Otherwise...
+	else {
+		//If the node to delete has a parent...
+		if (currentParent) {
+			//...and if the node to remove has a left node...
+			if (nodeToRemove->hasLeft()) {
+				//...set the current node to its left
+				currentNode = nodeToRemove->getLeft();
+				//If the current parent's left is the node to remove, set it to the current node
+				if (currentParent->getLeft() == nodeToRemove) 
+					currentParent->setLeft(currentNode);
+				//Otherwise, set its right node to currentNode
+				else if (currentParent->getRight() == nodeToRemove) 
+					currentParent->setRight(currentNode);
 
-		if (currentLeft->hasRight())
-			currentParent->setLeft(currentLeft->getRight());
-		else (currentParent->setLeft(nullptr));
-
+				//Deletes node to remove
+				delete nodeToRemove;
+				return;
+			}
+			else {
+				if (currentParent->getLeft() == nodeToRemove)
+					currentParent->setLeft(nullptr);
+				else if (currentParent->getRight() == nodeToRemove)
+					currentParent->setRight(nullptr);
+				delete nodeToRemove;
+			}
+		}
+		else {
+			if (nodeToRemove->hasLeft()) {
+				currentNode = nodeToRemove->getLeft();
+				m_root = currentNode;
+				delete nodeToRemove;
+				return;
+			}
+			else {
+				delete nodeToRemove;
+				m_root = nullptr;
+			}
+		}
+		delete currentNode;
 	}
 
 }
