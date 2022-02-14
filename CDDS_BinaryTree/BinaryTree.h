@@ -85,6 +85,9 @@ inline void BinaryTree<T>::draw(TreeNode<T>* selected) {
 template<typename T>
 inline bool BinaryTree<T>::findNode(T searchValue, TreeNode<T>*& nodeFound, TreeNode<T>*& nodeParent)
 {
+	if (m_root == nullptr)
+		return false;
+
 	bool searching = true;
 	TreeNode<T>* currentNode = m_root;
 	TreeNode<T>* currentParent = m_root;
