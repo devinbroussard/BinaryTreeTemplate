@@ -56,25 +56,33 @@ private:
 template<typename T>
 inline TreeNode<T>* BinaryTree<T>::find(T value)
 {
-	bool searching = true;
-	TreeNode<T>* currentNode = m_root;
+	bool searching = true; //Used for while loop
+	TreeNode<T>* currentNode = m_root; //Used to loop through the tree
 
-	while (searching) {
+	//While searching for the value...
+	while (searching) { 
+		//if the current node's data is less than the value given...
 		if (value > currentNode->getData()) {
+			//If the current node has a right child, set the current node to the current's right
 			if (currentNode->hasRight())
 				currentNode = currentNode->getRight();
-			else break;
+			//Otherwise, stop searching because the value isn't in the tree
+			else searching = false;
 		}
+		//If the current node's data is greather than the value given...
 		else if (value < currentNode->getData()) {
+			//Check to see if the current node has a left...
 			if (currentNode->hasLeft())
-				currentNode = currentNode->getLeft();
-			else break;
+				currentNode = currentNode->getLeft(); //..and if it has one, then set the current node to be its left
+			//Otherwise, stop searching because the value isn't in the tree
+			else searching = false;
 		}
+		//If the value is equal to the current node's data...
 		else if (value == currentNode->getData())
-			return currentNode;
+			return currentNode; //Return the current node
 	}
 
-	return NULL;
+	return NULL; //Return NULL by default
 }
 
 template<typename T>
@@ -85,40 +93,51 @@ inline void BinaryTree<T>::draw(TreeNode<T>* selected) {
 template<typename T>
 inline bool BinaryTree<T>::findNode(T searchValue, TreeNode<T>*& nodeFound, TreeNode<T>*& nodeParent)
 {
+	//If there is nothing in the tree, return false
 	if (m_root == nullptr)
 		return false;
 
-	bool searching = true;
-	TreeNode<T>* currentNode = m_root;
-	TreeNode<T>* currentParent = m_root;
+	bool searching = true; //Used to break out of the while loop and stop searching
+	TreeNode<T>* currentNode = m_root; //Used to hold the current node
+	TreeNode<T>* currentParent = m_root; //Used to hold the parent of the current node
 
-
+	//Used to search through the tree for the node 
 	while (searching) {
+		//If the search value is greater than the current node's data...
 		if (searchValue > currentNode->getData()) {
+			//Then check if the current node has a right....
 			if (currentNode->hasRight()) {
-				currentParent = currentNode;
-				currentNode = currentNode->getRight();
+				currentParent = currentNode; //If so, set the parent to the current node
+				currentNode = currentNode->getRight(); //Then set the current node to the right
 			}
-			else break;
+			//Else, the search value is not in the list, so stop searching
+			else searching = false; 
 		}
+		//If the search value is less than the current node's data...
 		else if (searchValue < currentNode->getData()) {
+			//Then check to see if the current node has a left...
 			if (currentNode->hasLeft()) {
-				currentParent = currentNode;
-				currentNode = currentNode->getLeft();
+				currentParent = currentNode; //If so, then set the current parent to the current node
+				currentNode = currentNode->getLeft(); //Set the current node to be the left
 			}
-			else break;
+			//Else, the serach vlaue is not in the list, so stop searching
+			else searching = false;
 		}
+		//If the search value is equal to the current node's data
 		else if (searchValue == currentNode->getData()) {
+			//Set node found to be the current node
 			nodeFound = currentNode;
+			//If the current node was the first node found...
 			if (currentParent->getData() == nodeFound->getData()) {
-				nodeParent == nullptr;
+				nodeParent == nullptr; //Set the node's parent to nullptr
 			}
-			else nodeParent = currentParent;
-			return true;
+			//Otherwise, set the node's parent to the current parent
+			else nodeParent = currentParent; 
+			return true; //Return true because the node was found
 		}
 	}
 
-	return false;
+	return false; //Returns false by default
 }
 
 template<typename T>
@@ -172,37 +191,48 @@ inline bool BinaryTree<T>::isEmpty() const
 template<typename T>
 inline void BinaryTree<T>::insert(T value)
 {
-	TreeNode<T>* newNode = new TreeNode<T>(value);
+	TreeNode<T>* newNode = new TreeNode<T>(value); //A node created that holds the value given
 
+	//If the tree is currently empty...
 	if (m_root == NULL) {
-		m_root = newNode;
-		return;
+		m_root = newNode; //Set the new node to be the new root..
+		return; //...and return from the function
 	}
 
-	bool sorting = true;
-	TreeNode<T>* currentNode = m_root;
+	bool searching = true; //Used to sort the new node into the tree
+	TreeNode<T>* currentNode = m_root; //Used loop through the tree into the spot where the new node belongs
 
-	while (sorting) {
+	//While searching for the new node's location...
+	while (searching) {
+		//If the new node's data is greater than the current node's data...
 		if (newNode->getData() > currentNode->getData()) {
+			//Check to see if the current node has a right...
 			if (currentNode->hasRight()) {
+				//If so, then set the current node to be the current node's right
 				currentNode = currentNode->getRight();
 			}
 			else {
+				//Otherwise, set the current node's right to be the new node
 				currentNode->setRight(newNode);
-				return;
+				searching = false; //Stop searching
 			}
 		}
+		//If the new node's data is less than the current node's data...
 		if (newNode->getData() < currentNode->getData()) {
+			//Check to see if the current node has a left...
 			if (currentNode->hasLeft()) {
+				//...and if so, set the current node to the left
 				currentNode = currentNode->getLeft();
 			}
 			else {
+				//Otherwise, set the current node's left to be the new node
 				currentNode->setLeft(newNode);
-				return;
+				searching = false; //Stop searching
 			}
 		}
+		//If the new node's data is equal to the current node's data...
 		if (newNode->getData() == currentNode->getData())
-			return;
+			searching = false; //Stop searching
 	}
 }
 
