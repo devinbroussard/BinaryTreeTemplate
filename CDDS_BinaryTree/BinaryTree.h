@@ -176,8 +176,9 @@ inline BinaryTree<T>::BinaryTree() {
 }
 
 template<typename T>
-inline BinaryTree<T>::~BinaryTree()
-{
+inline BinaryTree<T>::~BinaryTree() {
+	while (m_root)
+		remove(m_root->getData());
 }
 
 template<typename T>
