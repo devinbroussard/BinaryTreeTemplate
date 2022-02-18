@@ -8,8 +8,8 @@ class BinaryTree
 {
 public:
 
-	BinaryTree();
-	~BinaryTree();
+	BinaryTree(); //Initializes variables
+	~BinaryTree(); //Deallocates memory of binary tree
 
 	/// <summary>
 	/// Returns whether or not there are any nodes in the list
@@ -34,7 +34,7 @@ public:
 	/// <param name="value">The value of the node to search for</param>
 	TreeNode<T>* find(T value);
 
-	void draw(TreeNode<T>* selected = nullptr);
+	void draw(TreeNode<T>* selected = nullptr); //Calls the private draw function on the node gien
 
 private:
 	/// <summary>
@@ -46,9 +46,10 @@ private:
 	/// <returns>Whether or not a node matching the value could be found</returns>
 	bool findNode(T searchValue, TreeNode<T>*& nodeFound, TreeNode<T>*& nodeParent);
 
-	void draw(TreeNode<T>* currentNode, int x, int y, int horizontalSpacing, TreeNode<T>* selected = nullptr);
+	//Calls the draw function for the given node and its children
+	void draw(TreeNode<T>* currentNode, int x, int y, int horizontalSpacing, TreeNode<T>* selected = nullptr); 
 
-	TreeNode<T>* m_root = nullptr;
+	TreeNode<T>* m_root = nullptr; //Stores the root node of the binary tree
 };
 #endif _BINARYTREE_H_
 
