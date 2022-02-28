@@ -57,6 +57,11 @@ private:
 template<typename T>
 inline TreeNode<T>* BinaryTree<T>::find(T value)
 {
+	//If the list is empty, then return
+	if (m_root == nullptr)
+		return NULL;
+
+
 	bool searching = true; //Used for while loop
 	TreeNode<T>* currentNode = m_root; //Used to loop through the tree
 
